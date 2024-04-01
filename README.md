@@ -20,84 +20,54 @@ Program to implement the the Logistic Regression Model to Predict the Placement 
 Developed by: MOHAMED HAMEEM SAJITH J
 RegisterNumber: 212223240090 
 */
-
 import pandas as pd
-data=pd.read_csv("Placement_Data.csv")
-data.head()
-
-data1=data.copy()
-data1=data1.drop(["sl_no","salary"],axis=1)#Browses the specified row or column
-data1.head()
-
-data1.isnull().sum()
-
-data1.duplicated().sum()
-
 from sklearn.preprocessing import LabelEncoder
-le=LabelEncoder()
-data1["gender"]=le.fit_transform(data1["gender"])
-data1["ssc_b"]=le.fit_transform(data1["ssc_b"])
-data1["hsc_b"]=le.fit_transform(data1["hsc_b"])
-data1["hsc_s"]=le.fit_transform(data1["hsc_s"])
-data1["degree_t"]=le.fit_transform(data1["degree_t"])
-data1["workex"]=le.fit_transform(data1["workex"])
-data1["specialisation"]=le.fit_transform(data1["specialisation"] )     
-data1["status"]=le.fit_transform(data1["status"])
-data1 
-
-x=data1.iloc[:,:-1]
-x
-
-y=data1["status"]
-y
-
 from sklearn.model_selection import train_test_split
-x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=0)
-
 from sklearn.linear_model import LogisticRegression
-lr=LogisticRegression(solver="liblinear")
-lr.fit(x_train,y_train)
-y_pred=lr.predict(x_test)
-y_pred
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
+from sklearn import metrics
+from sklearn.metrics import ConfusionMatrixDisplay
+data = pd.read_csv("/Placement_Data.csv")
+data1 = data.copy()
+data1 = data1.drop(['sl_no','salary'], axis=1)
+le = LabelEncoder()
+data1["gender"] = le.fit_transform(data1["gender"])
+data1["ssc_b"] = le.fit_transform(data1["ssc_b"])
+data1["hsc_b"] = le.fit_transform(data1["hsc_b"])
+data1["hsc_s"] = le.fit_transform(data1["hsc_s"])
+data1["degree_t"] = le.fit_transform(data1["degree_t"])
+data1["workex"] = le.fit_transform(data1["workex"])
+data1["specialisation"] = le.fit_transform(data1["specialisation"])
+data1["status"] = le.fit_transform(data1["status"])
+x = data1.iloc[:, :-1]
+y = data1["status"]
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
+model = LogisticRegression(solver="liblinear")
+model.fit(x_train, y_train)
+y_pred = model.predict(x_test)
+accuracy = accuracy_score(y_test, y_pred)
+confusion = confusion_matrix(y_test, y_pred)
+cr = classification_report(y_test, y_pred)
+print("Accuracy Score:", accuracy)
+print("\nConfusion Matrix:\n", confusion)
+print("\nClassification Report:\n", cr)
+cm_display = ConfusionMatrixDisplay(confusion_matrix=confusion, display_labels=model.classes_)
+cm_display.plot()
 
-from sklearn.metrics import accuracy_score
-accuracy=accuracy_score(y_test,y_pred)
-accuracy
 
-from sklearn.metrics import confusion_matrix
-confusion=confusion_matrix(y_test,y_pred)
-confusion
 
-from sklearn.metrics import classification_report
-classification_report1 = classification_report(y_test,y_pred)
-print(classification_report1)
-
-lr.predict([[1,80,1,90,1,1,90,1,0,85,1,85]])
 ```
 
 ## Output:
 
-![image](https://github.com/Sajith7862/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/145972360/d4bd3288-6f64-4bd9-8e7b-cde08b3ceced)
+# Accuracy Score and Classification Report:
 
-![image](https://github.com/Sajith7862/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/145972360/a09cc750-db00-4ae1-9876-606d8dadef38)
+![image](https://github.com/Sajith7862/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/145972360/68deed47-49c3-4ed8-9e4c-6e81487f0695)
 
-![image](https://github.com/Sajith7862/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/145972360/203661ad-0cb9-48d8-9639-83361baf6a7c)
 
-![image](https://github.com/Sajith7862/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/145972360/ee651371-4fc7-457d-b43c-27c687c82448)
+# Displaying:
 
-![image](https://github.com/Sajith7862/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/145972360/762dea6b-872d-42b2-a275-0c2f8f47e433)
-
-![image](https://github.com/Sajith7862/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/145972360/16fcba9e-7062-4b96-ada5-cf80eca94966)
-
-![image](https://github.com/Sajith7862/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/145972360/231043e0-94a4-49a9-8703-8ef47daa2d44)
-
-![image](https://github.com/Sajith7862/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/145972360/8c69d7d3-2c57-4bac-8540-d7ae2d4bb1d7)
-
-![image](https://github.com/Sajith7862/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/145972360/fb111585-2a24-4516-a6f0-4be7693c076a)
-
-![image](https://github.com/Sajith7862/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/145972360/41e1362d-0c8f-4f5d-8e08-20de4165ee75)
-
-![the Logistic Regression Model to Predict the Placement Status of Student](sam.png)
+![image](https://github.com/Sajith7862/Implementation-of-Logistic-Regression-Model-to-Predict-the-Placement-Status-of-Student/assets/145972360/db672498-33da-4ef7-834c-6ef64eddd800)
 
 
 ## Result:
